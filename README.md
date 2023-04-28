@@ -17,4 +17,3 @@ Be sure to subscribe to our YouTube channel for more videos like this!
 <a href="https://github.com/byprogrammers/LCRN06-book-store-app/graphs/contributors">
    <img src="https://contrib.rocks/image?repo=byprogrammers/lets-code-react-native" />
 </a>
-
