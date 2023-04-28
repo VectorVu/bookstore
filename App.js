@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
-import { BookDetail } from "./screens/";
+import { BookDetail, Reading } from "./screens/";
 import Tabs from "./navigation/tabs";
 import { useFonts } from 'expo-font';
 
@@ -39,6 +39,7 @@ const App = () => {
 
                 {/* Screens */}
                 <Stack.Screen name="BookDetail" component={BookDetail} options={{ headerShown: false }} />
+                <Stack.Screen name="Reading" component={Reading} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
