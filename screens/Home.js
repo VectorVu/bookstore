@@ -5,10 +5,9 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  ScrollView,
   FlatList,
-  SectionList,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 
@@ -26,12 +25,22 @@ const LineDivider = () => {
   );
 };
 
-const Home = ({ navigation }) => {
-  const profileData = {
-    name: "Username",
-    point: 200,
-  };
 
+ const getProfile = async () => {
+  
+  console.log(user);
+  if (user) {
+    profileData.name = user.username;
+    profileData.point = user.point;
+  }
+}
+//  ₫> =khong dung async mà dung promise, tim hieu cach dung promise và chỉnh lai code
+const Home = ({ navigation }) => {
+  // Dummy Datas
+    let profileData = {
+    name: "Guest",
+    point: 0,
+    };
   const bookOtherWordsForHome = {
     id: 1,
     bookName: "Other Words For Home",
@@ -115,13 +124,13 @@ const Home = ({ navigation }) => {
       books: [bookTheTinyDragon],
     },
   ];
-
   const [profile, setProfile] = React.useState(profileData);
   const [myBooks, setMyBooks] = React.useState(myBooksData);
   const [categories, setCategories] = React.useState(categoriesData);
   const [selectedCategory, setSelectedCategory] = React.useState(1);
 
-  function renderHeader(profile) {
+  const renderHeader = (profile) => {
+
     return (
       <View
         style={{
@@ -638,7 +647,6 @@ const Home = ({ navigation }) => {
       </View>
     );
   }
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section */}
