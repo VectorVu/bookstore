@@ -9,7 +9,7 @@ import {
     Animated
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons } from "../constants";
-
+import  Header  from './Header'
 const LineDivider = () => {
     return (
         <View style={{ width: 1, paddingVertical: 5 }}>
@@ -61,42 +61,7 @@ const BookDetail = ({ route, navigation }) => {
                 </View>
 
                 {/* Navigation header */}
-                <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.radius, height: 80, alignItems: 'flex-end' }}>
-                    <TouchableOpacity
-                        style={{ marginLeft: SIZES.base }}
-                        onPress={() => navigation.goBack()}
-                    >
-                        <Image
-                            source={icons.back_arrow_icon}
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: book.navTintColor
-                            }}
-                        />
-                    </TouchableOpacity>
-
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: book.navTintColor }}>Book Detail</Text>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{ marginRigth: SIZES.base }}
-                        onPress={() => console.log("Click More")}
-                    >
-                        <Image
-                            source={icons.more_icon}
-                            resizeMode="contain"
-                            style={{
-                                width: 30,
-                                height: 30,
-                                tintColor: book.navTintColor,
-                                alignSelf: 'flex-end'
-                            }}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <Header title={'Book Detail'} book={book} navigation={navigation}></Header>
 
                 {/* Book Cover */}
                 <View style={{ flex: 5, paddingTop: SIZES.padding2, alignItems: 'center' }}>
@@ -240,7 +205,7 @@ const BookDetail = ({ route, navigation }) => {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
-                    onPress={() => navigation.navigate('Reading')}
+                    onPress={() => navigation.navigate('Reading', { book: book })}
                 >
                     <Text style={{ ...FONTS.h3, color: COLORS.white }}>Start Reading</Text>
                 </TouchableOpacity>
