@@ -30,18 +30,25 @@ const deviceHeight = Dimensions.get('window').height - 40 - 30;
 const Reading = ({ route, navigation }) => {
     const [book, setBook] = React.useState(route.params.book);
 
-    const [pages, setPages] = React.useState(['']);
-    const [currentPage, setCurrentPage] = React.useState(0);
-
-    const [savePage, setSavePage] = React.useState(8);
+    const [savePage, setSavePage] = React.useState(0);
+    const [currentPage, setCurrentPage] = React.useState(1);
 
     const scrollRef = useRef();
+
+    const removeBook = async () => {
+        await AsyncStorage.removeItem("books");
+    }
 
     const getSavePageData = async () => {
         try {
             const value = await AsyncStorage.getItem("books");
-            // console.log(JSON.parse(value));
-            setPages(value);
+            if (value) {
+                const pageValue = JSON.parse(value);
+                // console.log(pageValue);
+                if (pageValue[book.id]) {
+                    setSavePage(pageValue[book.id]);
+                }
+            }
             // return value;
         } catch (e) {
 
@@ -52,8 +59,9 @@ const Reading = ({ route, navigation }) => {
 
     const setBookMark = async () => {
         try {
-            const saveData = JSON.stringify([{ "1": currentPage }]);
-            await AsyncStorage.setItem("books", saveData);
+            const newSaveData = {};
+            newSaveData[`${book.id}`] = currentPage;
+            await AsyncStorage.mergeItem("books", JSON.stringify(newSaveData));
             alert('page saved');
         } catch (e) {
             alert('Some thing went wrong! Please try again')
@@ -62,8 +70,10 @@ const Reading = ({ route, navigation }) => {
 
     const handleScroll = (event) => {
         const offsetY = event.nativeEvent.contentOffset.y;
+        // console.log("offsetY: " + offsetY);
         const newPage = Math.floor(offsetY / deviceHeight);
-        setCurrentPage(newPage);
+        // console.log("newPage: ", newPage);
+        setCurrentPage(newPage + 1);
     };
     const jumpPage = () => {
         scrollRef.current.scrollTo({
@@ -74,6 +84,7 @@ const Reading = ({ route, navigation }) => {
 
     useEffect(() => {
         //  jumpPage();
+        // removeBook();
         getSavePageData();
     }, [])
 
@@ -127,8 +138,8 @@ const Reading = ({ route, navigation }) => {
                 pagingEnabled
                 showsVerticalScrollIndicator={false}
                 ref={scrollRef}
-                // contentOffset={{ x: 0, y: savePage * deviceHeight }}
-                style={{ flex: 1, width: deviceWidth, height: deviceHeight * images.length }}
+                contentOffset={{ x: 0, y: savePage * deviceHeight }}
+                style={{ flex: 1 }}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
             // contentContainerStyle={{ marginBottom: 10}}
