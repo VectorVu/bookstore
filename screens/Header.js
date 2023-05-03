@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {
     View,
     Text,
@@ -46,5 +46,5 @@ const Header = ({title, book, navigation}) => (
     </View>
 );
 
-export default Header;
+export default memo(Header);
 

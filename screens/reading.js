@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { memo, useRef, useEffect } from "react";
 import {
     View,
     Text,
@@ -11,25 +11,12 @@ import {
 import Header from './Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const images = [
-    'https://res.cloudinary.com/vector998/image/upload/v1682919376/images/b1-1_aer0ba.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-2_mqfu9u.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-3_vyurqu.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-4_v4vxuo.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-5_elemiw.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-6_y2mlbq.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-6_y2mlbq.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-6_y2mlbq.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-6_y2mlbq.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-6_y2mlbq.jpg',
-    'https://res.cloudinary.com/vector998/image/upload/v1682919377/images/b1-6_y2mlbq.jpg',
-];
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height - 40 - 30;
 
 const Reading = ({ route, navigation }) => {
     const [book, setBook] = React.useState(route.params.book);
-
+    
     const [savePage, setSavePage] = React.useState(0);
     const [currentPage, setCurrentPage] = React.useState(1);
 
@@ -41,6 +28,7 @@ const Reading = ({ route, navigation }) => {
 
     const getSavePageData = async () => {
         try {
+            // console.log(book);
             const value = await AsyncStorage.getItem("books");
             if (value) {
                 const pageValue = JSON.parse(value);
@@ -97,7 +85,7 @@ const Reading = ({ route, navigation }) => {
             // height: images.length * deviceHeight + 300
         }}>
             <ImageBackground
-                source={book.bookCover}
+                source={{uri: book.bookCover }}
                 resizeMode="cover"
                 style={{
                     position: 'absolute',
@@ -145,7 +133,7 @@ const Reading = ({ route, navigation }) => {
             // contentContainerStyle={{ marginBottom: 10}}
             >
                 {
-                    images.map((img, index) => (
+                    book.contentImg.map((img, index) => (
                         <SafeAreaView
                             key={index}
                             style={{
@@ -182,4 +170,4 @@ const Reading = ({ route, navigation }) => {
 
 }
 
-export default Reading;
+export default memo(Reading);

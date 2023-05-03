@@ -6,6 +6,9 @@ import Login from "./Login";
 import ForgotPassword from "./ForgotPassword";
 import Settings from "./Settings";
 import Header from "./Header";
+import RenderList from "./RenderList";
+import Search from "./Search";
+
 
 export {
     Home,
@@ -15,5 +18,7 @@ export {
     Login,
     ForgotPassword,
     Settings,
-    Header
+    Header,
+    RenderList,
+    Search
 };
