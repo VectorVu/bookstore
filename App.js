@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
-import { BookDetail } from "./screens/";
+import { BookDetail, Reading, Register, Login, ForgotPassword, Search } from "./screens/";
 import Tabs from "./navigation/tabs";
 import { useFonts } from 'expo-font';
 
@@ -32,13 +32,20 @@ const App = () => {
                 screenOptions={{
                     headerShown: false
                 }}
-                initialRouteName={'Home'}
+                // initialRouteName={'home'}
             >
+                {/* Authen */}
+                {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+                <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerShown: false }} /> */}
+
                 {/* Tabs */}
-                <Stack.Screen name="Home" component={Tabs} />
+                <Stack.Screen name="home" component={Tabs} />
 
                 {/* Screens */}
                 <Stack.Screen name="BookDetail" component={BookDetail} options={{ headerShown: false }} />
+                <Stack.Screen name="Reading" component={Reading} options={{ headerShown: false }} />
+                <Stack.Screen name="Search" component={Search} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )
