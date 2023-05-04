@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {
     View,
     Text,
@@ -9,7 +9,7 @@ import {
     Animated
 } from 'react-native';
 import { FONTS, COLORS, SIZES, icons } from "../constants";
-
+import  Header  from './Header'
 const LineDivider = () => {
     return (
         <View style={{ width: 1, paddingVertical: 5 }}>
@@ -21,6 +21,7 @@ const LineDivider = () => {
 const BookDetail = ({ route, navigation }) => {
 
     const [book, setBook] = React.useState(null);
+    const [bought, setBought] = React.useState(false);
 
     const [scrollViewWholeHeight, setScrollViewWholeHeight] = React.useState(1);
     const [scrollViewVisibleHeight, setScrollViewVisibleHeight] = React.useState(0);
@@ -36,7 +37,7 @@ const BookDetail = ({ route, navigation }) => {
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground
-                    source={book.bookCover}
+                    source={{uri: book.bookCover }}
                     resizeMode="cover"
                     style={{
                         position: 'absolute',
@@ -61,47 +62,12 @@ const BookDetail = ({ route, navigation }) => {
                 </View>
 
                 {/* Navigation header */}
-                <View style={{ flexDirection: 'row', paddingHorizontal: SIZES.radius, height: 80, alignItems: 'flex-end' }}>
-                    <TouchableOpacity
-                        style={{ marginLeft: SIZES.base }}
-                        onPress={() => navigation.goBack()}
-                    >
-                        <Image
-                            source={icons.back_arrow_icon}
-                            resizeMode="contain"
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: book.navTintColor
-                            }}
-                        />
-                    </TouchableOpacity>
-
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ ...FONTS.h3, color: book.navTintColor }}>Book Detail</Text>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{ marginRigth: SIZES.base }}
-                        onPress={() => console.log("Click More")}
-                    >
-                        <Image
-                            source={icons.more_icon}
-                            resizeMode="contain"
-                            style={{
-                                width: 30,
-                                height: 30,
-                                tintColor: book.navTintColor,
-                                alignSelf: 'flex-end'
-                            }}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <Header title={'Book Detail'} book={book} navigation={navigation}></Header>
 
                 {/* Book Cover */}
                 <View style={{ flex: 5, paddingTop: SIZES.padding2, alignItems: 'center' }}>
                     <Image
-                        source={book.bookCover}
+                        source={{uri: book.bookCover }}
                         resizeMode="contain"
                         style={{
                             flex: 1,
@@ -240,7 +206,15 @@ const BookDetail = ({ route, navigation }) => {
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
-                    onPress={() => navigation.navigate('Reading')}
+                    onPress={() => {
+                        // check mua hay chua
+                        // if(!bought) {
+                        //     alert('Oh, looks like you have not bought this book yet! Lets buy it!!!');
+                        // } else {
+                        //     naviga
+                        // }
+                        navigation.navigate('Reading', { book: book });
+                    }}
                 >
                     <Text style={{ ...FONTS.h3, color: COLORS.white }}>Start Reading</Text>
                 </TouchableOpacity>
@@ -273,4 +247,4 @@ const BookDetail = ({ route, navigation }) => {
 
 }
 
-export default BookDetail;
+export default memo(BookDetail);

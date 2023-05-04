@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import TextInput from "../components/TextInput";
 import { theme } from "../core/theme";
 import { usernameValidator, passwordValidator } from "../core/utils";
+import  URL_IP  from '../constants/connect';
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState({ value: "", error: "" });
@@ -27,7 +28,7 @@ const Login = ({ navigation }) => {
       username: username.value,
       password: password.value,
     };
-    const response = await fetch("http://192.168.0.104:3000/user/login", {
+    const response = await fetch(`${URL_IP}/user/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
