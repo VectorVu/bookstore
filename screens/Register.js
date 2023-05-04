@@ -19,6 +19,7 @@ import {
   phoneNumberValidator,
 } from "../core/utils";
 import { FlatList } from "react-native-gesture-handler";
+import URL_IP from '../constants/connect';
 
 const Register = ({ navigation }) => {
   const [username, setUsername] = useState({ value: "", error: "" });
@@ -47,7 +48,7 @@ const Register = ({ navigation }) => {
         email: email.value,
         phoneNumber: phoneNumber.value,
       };
-      const response = await fetch("http://192.168.0.104:3000/user", {
+      const response = await fetch(`${URL_IP}/user`, {
         method: "POST",
         headers: {
           Accept: "application/json",
