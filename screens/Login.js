@@ -36,7 +36,7 @@ const Login = ({ navigation }) => {
       body: JSON.stringify(userCheck),
     });
     const user = await response.json();
-    //console.log(user);
+
     if (
       user.message !== "User not found" &&
       user.message !== "Wrong password"
@@ -45,6 +45,7 @@ const Login = ({ navigation }) => {
       setUser(user);
       await AsyncStorage.setItem("savedUser", JSON.stringify(user));
       navigation.navigate("home");
+      
     } else {
       alert(user.message);
     }

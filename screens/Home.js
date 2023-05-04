@@ -26,21 +26,13 @@ const LineDivider = () => {
 };
 
 
- const getProfile = async () => {
-  
-  console.log(user);
-  if (user) {
-    profileData.name = user.username;
-    profileData.point = user.point;
-  }
-}
-//  ₫> =khong dung async mà dung promise, tim hieu cach dung promise và chỉnh lai code
-const Home = ({ navigation }) => {
-  // Dummy Datas
-    let profileData = {
-    name: "Guest",
-    point: 0,
-    };
+
+const Home =  ({ navigation }) => {
+let profileData = {
+  username: "Guest",
+  point: 0,
+  };
+
   const bookOtherWordsForHome = {
     id: 1,
     bookName: "Other Words For Home",
@@ -129,8 +121,22 @@ const Home = ({ navigation }) => {
   const [categories, setCategories] = React.useState(categoriesData);
   const [selectedCategory, setSelectedCategory] = React.useState(1);
 
-  const renderHeader = (profile) => {
+  React.useEffect(() => {
+    const getProfileData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('savedUser');
+        // console.log(value);
+        if (value !== null) {
+          setProfile(JSON.parse(value));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProfileData();
+  }, []);
 
+  const renderHeader = (profile) => {
     return (
       <View
         style={{
@@ -147,7 +153,7 @@ const Home = ({ navigation }) => {
               Good Morning
             </Text>
             <Text style={{ ...FONTS.h2, color: COLORS.white }}>
-              {profile.name}
+              {profile.username}
             </Text>
           </View>
         </View>
@@ -208,127 +214,127 @@ const Home = ({ navigation }) => {
     );
   }
 
-  function renderButtonSection() {
-    return (
-      <View
-        style={{ flex: 1, justifyContent: "center", padding: SIZES.padding }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            height: 70,
-            backgroundColor: COLORS.secondary,
-            borderRadius: SIZES.radius,
-          }}
-        >
-          {/* Claim */}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log("Claim")}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                source={icons.claim_icon}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-              <Text
-                style={{
-                  marginLeft: SIZES.base,
-                  ...FONTS.body3,
-                  color: COLORS.white,
-                }}
-              >
-                Claim
-              </Text>
-            </View>
-          </TouchableOpacity>
+  // function renderButtonSection() {
+  //   return (
+  //     <View
+  //       style={{ flex: 1, justifyContent: "center", padding: SIZES.padding }}
+  //     >
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           height: 70,
+  //           backgroundColor: COLORS.secondary,
+  //           borderRadius: SIZES.radius,
+  //         }}
+  //       >
+  //         {/* Claim */}
+  //         <TouchableOpacity
+  //           style={{ flex: 1 }}
+  //           onPress={() => console.log("Claim")}
+  //         >
+  //           <View
+  //             style={{
+  //               flex: 1,
+  //               flexDirection: "row",
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //             }}
+  //           >
+  //             <Image
+  //               source={icons.claim_icon}
+  //               resizeMode="contain"
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //               }}
+  //             />
+  //             <Text
+  //               style={{
+  //                 marginLeft: SIZES.base,
+  //                 ...FONTS.body3,
+  //                 color: COLORS.white,
+  //               }}
+  //             >
+  //               Claim
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
 
-          {/* Divider */}
-          <LineDivider />
+  //         {/* Divider */}
+  //         <LineDivider />
 
-          {/* Get Point */}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log("Get Point")}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                source={icons.point_icon}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-              <Text
-                style={{
-                  marginLeft: SIZES.base,
-                  ...FONTS.body3,
-                  color: COLORS.white,
-                }}
-              >
-                Get Point
-              </Text>
-            </View>
-          </TouchableOpacity>
+  //         {/* Get Point */}
+  //         <TouchableOpacity
+  //           style={{ flex: 1 }}
+  //           onPress={() => console.log("Get Point")}
+  //         >
+  //           <View
+  //             style={{
+  //               flex: 1,
+  //               flexDirection: "row",
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //             }}
+  //           >
+  //             <Image
+  //               source={icons.point_icon}
+  //               resizeMode="contain"
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //               }}
+  //             />
+  //             <Text
+  //               style={{
+  //                 marginLeft: SIZES.base,
+  //                 ...FONTS.body3,
+  //                 color: COLORS.white,
+  //               }}
+  //             >
+  //               Get Point
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
 
-          {/* Divider */}
-          <LineDivider />
+  //         {/* Divider */}
+  //         <LineDivider />
 
-          {/* My Card */}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log("My Card")}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                source={icons.card_icon}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-              <Text
-                style={{
-                  marginLeft: SIZES.base,
-                  ...FONTS.body3,
-                  color: COLORS.white,
-                }}
-              >
-                My Card
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
+  //         {/* My Card */}
+  //         <TouchableOpacity
+  //           style={{ flex: 1 }}
+  //           onPress={() => console.log("My Card")}
+  //         >
+  //           <View
+  //             style={{
+  //               flex: 1,
+  //               flexDirection: "row",
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //             }}
+  //           >
+  //             <Image
+  //               source={icons.card_icon}
+  //               resizeMode="contain"
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //               }}
+  //             />
+  //             <Text
+  //               style={{
+  //                 marginLeft: SIZES.base,
+  //                 ...FONTS.body3,
+  //                 color: COLORS.white,
+  //               }}
+  //             >
+  //               My Card
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   function renderMyBookSection(myBooks) {
     const renderItem = ({ item, index }) => {
@@ -650,9 +656,9 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section */}
-      <View style={{ height: 200 }}>
+      <View style={{ height: 80 }}>
         {renderHeader(profile)}
-        {renderButtonSection()}
+        {/* {renderButtonSection()} */}
       </View>
 
       {/* Body Section */}
