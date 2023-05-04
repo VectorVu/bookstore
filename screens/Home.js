@@ -88,8 +88,8 @@ const Home = ({ navigation }) => {
   React.useEffect(() => {
     getAllBookData();
   }, [])
-  const renderHeader = (profile) => {
 
+  const renderHeader = (profile) => {
     return (
       <View
         style={{
@@ -106,7 +106,7 @@ const Home = ({ navigation }) => {
               Good Morning
             </Text>
             <Text style={{ ...FONTS.h2, color: COLORS.white }}>
-              {profile.name}
+              {profile.username}
             </Text>
           </View>
         </View>
@@ -167,127 +167,127 @@ const Home = ({ navigation }) => {
     );
   }
 
-  function renderButtonSection() {
-    return (
-      <View
-        style={{ flex: 1, justifyContent: "center", padding: SIZES.padding }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            height: 70,
-            backgroundColor: COLORS.secondary,
-            borderRadius: SIZES.radius,
-          }}
-        >
-          {/* Claim */}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log("Claim")}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                source={icons.claim_icon}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-              <Text
-                style={{
-                  marginLeft: SIZES.base,
-                  ...FONTS.body3,
-                  color: COLORS.white,
-                }}
-              >
-                Claim
-              </Text>
-            </View>
-          </TouchableOpacity>
+  // function renderButtonSection() {
+  //   return (
+  //     <View
+  //       style={{ flex: 1, justifyContent: "center", padding: SIZES.padding }}
+  //     >
+  //       <View
+  //         style={{
+  //           flexDirection: "row",
+  //           height: 70,
+  //           backgroundColor: COLORS.secondary,
+  //           borderRadius: SIZES.radius,
+  //         }}
+  //       >
+  //         {/* Claim */}
+  //         <TouchableOpacity
+  //           style={{ flex: 1 }}
+  //           onPress={() => console.log("Claim")}
+  //         >
+  //           <View
+  //             style={{
+  //               flex: 1,
+  //               flexDirection: "row",
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //             }}
+  //           >
+  //             <Image
+  //               source={icons.claim_icon}
+  //               resizeMode="contain"
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //               }}
+  //             />
+  //             <Text
+  //               style={{
+  //                 marginLeft: SIZES.base,
+  //                 ...FONTS.body3,
+  //                 color: COLORS.white,
+  //               }}
+  //             >
+  //               Claim
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
 
-          {/* Divider */}
-          <LineDivider />
+  //         {/* Divider */}
+  //         <LineDivider />
 
-          {/* Get Point */}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log("Get Point")}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                source={icons.point_icon}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-              <Text
-                style={{
-                  marginLeft: SIZES.base,
-                  ...FONTS.body3,
-                  color: COLORS.white,
-                }}
-              >
-                Get Point
-              </Text>
-            </View>
-          </TouchableOpacity>
+  //         {/* Get Point */}
+  //         <TouchableOpacity
+  //           style={{ flex: 1 }}
+  //           onPress={() => console.log("Get Point")}
+  //         >
+  //           <View
+  //             style={{
+  //               flex: 1,
+  //               flexDirection: "row",
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //             }}
+  //           >
+  //             <Image
+  //               source={icons.point_icon}
+  //               resizeMode="contain"
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //               }}
+  //             />
+  //             <Text
+  //               style={{
+  //                 marginLeft: SIZES.base,
+  //                 ...FONTS.body3,
+  //                 color: COLORS.white,
+  //               }}
+  //             >
+  //               Get Point
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
 
-          {/* Divider */}
-          <LineDivider />
+  //         {/* Divider */}
+  //         <LineDivider />
 
-          {/* My Card */}
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() => console.log("My Card")}
-          >
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                source={icons.card_icon}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-              <Text
-                style={{
-                  marginLeft: SIZES.base,
-                  ...FONTS.body3,
-                  color: COLORS.white,
-                }}
-              >
-                My Card
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
+  //         {/* My Card */}
+  //         <TouchableOpacity
+  //           style={{ flex: 1 }}
+  //           onPress={() => console.log("My Card")}
+  //         >
+  //           <View
+  //             style={{
+  //               flex: 1,
+  //               flexDirection: "row",
+  //               alignItems: "center",
+  //               justifyContent: "center",
+  //             }}
+  //           >
+  //             <Image
+  //               source={icons.card_icon}
+  //               resizeMode="contain"
+  //               style={{
+  //                 width: 30,
+  //                 height: 30,
+  //               }}
+  //             />
+  //             <Text
+  //               style={{
+  //                 marginLeft: SIZES.base,
+  //                 ...FONTS.body3,
+  //                 color: COLORS.white,
+  //               }}
+  //             >
+  //               My Card
+  //             </Text>
+  //           </View>
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   function renderMyBookSection(myBooks) {
     const renderItem = ({ item, index }) => {
@@ -451,7 +451,7 @@ const Home = ({ navigation }) => {
       {/* Header Section, thêm marginTop để né mấy cái tai thỏ, tai heo, mắt cú, mắt mèo*/}
       <View style={{ height: 200, marginTop: 20 }}>
         {renderHeader(profile)}
-        {renderButtonSection()}
+        {/* {renderButtonSection()} */}
       </View>
 
       {/* Body Section */}
