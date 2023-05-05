@@ -7,8 +7,8 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import URL_IP from "../constants/connect";
 import  RenderList  from './RenderList';
@@ -36,12 +36,11 @@ const getProfile = async () => {
     profileData.point = user.point;
   }
 }
-//  ₫> =khong dung async mà dung promise, tim hieu cach dung promise và chỉnh lai code
 
 const Home = ({ navigation }) => {
   // Dummy Datas
   let profileData = {
-    name: "Guest",
+    username: "Guest",
     point: 0,
   };
   const [bookData, setBookData] = React.useState([]);
@@ -449,11 +448,10 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section, thêm marginTop để né mấy cái tai thỏ, tai heo, mắt cú, mắt mèo*/}
-      <View style={{ height: 200, marginTop: 20 }}>
+      <View style={{ height: 70, marginTop: 10 }}>
         {renderHeader(profile)}
         {/* {renderButtonSection()} */}
       </View>
-
       {/* Body Section */}
       <FlatList
         ListHeaderComponent={

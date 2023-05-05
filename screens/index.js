@@ -10,6 +10,7 @@ import RenderList from "./RenderList";
 import Search from "./Search";
 
 
+
 export {
     Home,
     BookDetail,
@@ -20,5 +21,5 @@ export {
     Settings,
     Header,
     RenderList,
-    Search
+    Search,
 };

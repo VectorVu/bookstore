@@ -10,10 +10,11 @@ import { theme } from "../core/theme";
 import { usernameValidator, passwordValidator } from "../core/utils";
 import  URL_IP  from '../constants/connect';
 
+
 const Login = ({ navigation }) => {
+
   const [username, setUsername] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
-  const [user, setUser] = useState(null);
 
   const loginPressed = async () => {
     const usernameError = usernameValidator(username.value);
@@ -36,19 +37,17 @@ const Login = ({ navigation }) => {
       },
       body: JSON.stringify(userCheck),
     });
-    const user = await response.json();
+    const userInfo = await response.json();
 
     if (
-      user.message !== "User not found" &&
-      user.message !== "Wrong password"
+      userInfo.message !== "User not found" &&
+      userInfo.message !== "Wrong password"
     ) {
       alert("Login successfully");
-      setUser(user);
-      await AsyncStorage.setItem("savedUser", JSON.stringify(user));
-      navigation.navigate("home");
-      
+      await AsyncStorage.setItem("savedUser", JSON.stringify(userInfo));
+      navigation.navigate("home");    
     } else {
-      alert(user.message);
+      alert(userInfo.message);
     }
   };
 
