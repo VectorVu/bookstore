@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import Background from "../components/Background";
 import Logo from "../components/Logo";
