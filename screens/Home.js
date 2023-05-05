@@ -31,27 +31,25 @@ const LineDivider = () => {
 
 
 const Home = ({ navigation }) => {
-  // Dummy Datas
-  let profileData = {
-    username: "Guest",
-    point: 0,
-  };
+// chinh lai them diem va ten user trong header
+  const [user, setUser] = React.useState();
   const getProfile = async () => {
-    const user = JSON.parse(await AsyncStorage.getItem("savedUser"));
-    //console.log(user);
-    if (user) {
-      profileData.username = user.username;
-      profileData.point = user.point;
+    const userData = JSON.parse(await AsyncStorage.getItem("savedUser"));
+    if (userData) {
+      setUser(userData);
     }
   }
   const [bookData, setBookData] = React.useState([]);
   const [modalVisible2, setModalVisible2] = React.useState(false);
-  const [profile, setProfile] = React.useState(profileData);
   const [myBooks, setMyBooks] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState(1);
   let addedPoints = 0;
 
+  React.useEffect(()=>{
+    getProfile();
+  }, [])
+  ////////////////////////////////////
   const getAllBookData = async () => {
     const allBook = await fetch(`${URL_IP}/book`, {
       method: "GET",
@@ -182,8 +180,8 @@ const Home = ({ navigation }) => {
     }
   }
 
-  const renderHeader = (profile) => {
-    getProfile();
+  const renderHeader = (user) => {
+    // getProfile();
     return (
       <View
         style={{
@@ -200,7 +198,7 @@ const Home = ({ navigation }) => {
               Good Morning
             </Text>
             <Text style={{ ...FONTS.h2, color: COLORS.white }}>
-              {profile.username}
+              {user.username}
             </Text>
           </View>
         </View>
@@ -256,7 +254,7 @@ const Home = ({ navigation }) => {
                 ...FONTS.body3,
               }}
             >
-              {profile.point} point
+              {user.point} point
             </Text>
           </View>
         </TouchableOpacity>
@@ -421,11 +419,11 @@ const Home = ({ navigation }) => {
       <RenderList listBook={books} navigation={navigation}></RenderList>
     );
   }
-  return (
+  return ( user &&
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section, thêm marginTop để né mấy cái tai thỏ, tai heo, mắt cú, mắt mèo*/}
       <View style={{ height: 70, marginTop: 10 }}>
-        {renderHeader(profile)}
+        {renderHeader(user)}
         {/* {renderButtonSection()} */}
       </View>
       {/* Body Section */}
