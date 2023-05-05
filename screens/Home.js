@@ -33,27 +33,25 @@ const LineDivider = () => {
 
 
 const Home = ({ navigation }) => {
-  // Dummy Datas
-  let profileData = {
-    username: "Guest",
-    point: 0,
-  };
+// chinh lai them diem va ten user trong header
+  const [user, setUser] = React.useState();
   const getProfile = async () => {
-    const user = JSON.parse(await AsyncStorage.getItem("savedUser"));
-    //console.log(user);
-    if (user) {
-      profileData.username = user.username;
-      profileData.point = user.point;
+    const userData = JSON.parse(await AsyncStorage.getItem("savedUser"));
+    if (userData) {
+      setUser(userData);
     }
   }
   const [bookData, setBookData] = React.useState([]);
   const [modalVisible2, setModalVisible2] = React.useState(false);
-  const [profile, setProfile] = React.useState(profileData);
   const [myBooks, setMyBooks] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState(1);
   let addedPoints = 0;
 
+  React.useEffect(()=>{
+    getProfile();
+  }, [])
+  ////////////////////////////////////
   const getAllBookData = async () => {
     const allBook = await fetch(`${URL_IP}/book`, {
       method: "GET",
@@ -184,8 +182,8 @@ const Home = ({ navigation }) => {
     }
   }
 
-  const renderHeader = (profile) => {
-    getProfile();
+  const renderHeader = (user) => {
+    // getProfile();
     return (
       <View
         style={{
@@ -202,7 +200,7 @@ const Home = ({ navigation }) => {
               Good Morning
             </Text>
             <Text style={{ ...FONTS.h2, color: COLORS.white }}>
-              {profile.username}
+              {user.username}
             </Text>
           </View>
         </View>
@@ -258,135 +256,13 @@ const Home = ({ navigation }) => {
                 ...FONTS.body3,
               }}
             >
-              {profile.point} point
+              {user.point} point
             </Text>
           </View>
         </TouchableOpacity>
       </View>
     );
   }
-
-  // function renderButtonSection() {
-  //   return (
-  //     <View
-  //       style={{ flex: 1, justifyContent: "center", padding: SIZES.padding }}
-  //     >
-  //       <View
-  //         style={{
-  //           flexDirection: "row",
-  //           height: 70,
-  //           backgroundColor: COLORS.secondary,
-  //           borderRadius: SIZES.radius,
-  //         }}
-  //       >
-  //         {/* Claim */}
-  //         <TouchableOpacity
-  //           style={{ flex: 1 }}
-  //           onPress={() => console.log("Claim")}
-  //         >
-  //           <View
-  //             style={{
-  //               flex: 1,
-  //               flexDirection: "row",
-  //               alignItems: "center",
-  //               justifyContent: "center",
-  //             }}
-  //           >
-  //             <Image
-  //               source={icons.claim_icon}
-  //               resizeMode="contain"
-  //               style={{
-  //                 width: 30,
-  //                 height: 30,
-  //               }}
-  //             />
-  //             <Text
-  //               style={{
-  //                 marginLeft: SIZES.base,
-  //                 ...FONTS.body3,
-  //                 color: COLORS.white,
-  //               }}
-  //             >
-  //               Claim
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-
-  //         {/* Divider */}
-  //         <LineDivider />
-
-  //         {/* Get Point */}
-  //         <TouchableOpacity
-  //           style={{ flex: 1 }}
-  //           onPress={() => console.log("Get Point")}
-  //         >
-  //           <View
-  //             style={{
-  //               flex: 1,
-  //               flexDirection: "row",
-  //               alignItems: "center",
-  //               justifyContent: "center",
-  //             }}
-  //           >
-  //             <Image
-  //               source={icons.point_icon}
-  //               resizeMode="contain"
-  //               style={{
-  //                 width: 30,
-  //                 height: 30,
-  //               }}
-  //             />
-  //             <Text
-  //               style={{
-  //                 marginLeft: SIZES.base,
-  //                 ...FONTS.body3,
-  //                 color: COLORS.white,
-  //               }}
-  //             >
-  //               Get Point
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-
-  //         {/* Divider */}
-  //         <LineDivider />
-
-  //         {/* My Card */}
-  //         <TouchableOpacity
-  //           style={{ flex: 1 }}
-  //           onPress={() => console.log("My Card")}
-  //         >
-  //           <View
-  //             style={{
-  //               flex: 1,
-  //               flexDirection: "row",
-  //               alignItems: "center",
-  //               justifyContent: "center",
-  //             }}
-  //           >
-  //             <Image
-  //               source={icons.card_icon}
-  //               resizeMode="contain"
-  //               style={{
-  //                 width: 30,
-  //                 height: 30,
-  //               }}
-  //             />
-  //             <Text
-  //               style={{
-  //                 marginLeft: SIZES.base,
-  //                 ...FONTS.body3,
-  //                 color: COLORS.white,
-  //               }}
-  //             >
-  //               My Card
-  //             </Text>
-  //           </View>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </View>
-  //   );
-  // }
 
   function renderMyBookSection(myBooks) {
     const renderItem = ({ item, index }) => {
@@ -545,11 +421,11 @@ const Home = ({ navigation }) => {
       <RenderList listBook={books} navigation={navigation}></RenderList>
     );
   }
-  return (
+  return ( user &&
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       {/* Header Section, thêm marginTop để né mấy cái tai thỏ, tai heo, mắt cú, mắt mèo*/}
       <View style={{ height: 70, marginTop: 10 }}>
-        {renderHeader(profile)}
+        {renderHeader(user)}
         {/* {renderButtonSection()} */}
       </View>
       {/* Body Section */}
