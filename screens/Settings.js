@@ -7,7 +7,7 @@ import {
   FlatList,
 } from "react-native";
 import TextInput from "../components/TextInput";
-import { COLORS, FONTS, SIZES, icons, images } from "../constants";
+import { COLORS} from "../constants";
 import { useState } from "react";
 import Dialog, { DialogContent } from "react-native-popup-dialog";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -23,7 +23,6 @@ const Settings = ({navigation}) => {
   const [modalVisible2, setModalVisible2] = useState(false);
 
   let addedPoints = 0;
-
 
   const accountSettingPressed = async () => {
     const userInfo = JSON.parse(await AsyncStorage.getItem("savedUser"));
@@ -124,7 +123,9 @@ const Settings = ({navigation}) => {
       >
         <DialogContent>
           <View style={{ marginTop: 20 }}>
-            <Text>USER INFORMATION</Text>
+            <View  style={{alignItems: 'center',}}>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>USER INFORMATION</Text>
+            </View>
             <FlatList
               ListHeaderComponent={
                 <View>
@@ -188,7 +189,7 @@ const Settings = ({navigation}) => {
             <Text style={styles.buttonText}>Update</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, styles.buttonClose]}
+            style={[styles.button, styles.buttonClose, {backgroundColor: 'gray'}]}
             onPress={() => setModalVisible(false)}
           >
             <Text style={styles.buttonText}>Close</Text>
@@ -340,6 +341,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+
 });
 
 export default Settings;

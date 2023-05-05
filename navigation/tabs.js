@@ -51,7 +51,7 @@ const Tabs = () => {
                   />
                 );
 
-              case "Notification":
+              case "My Books":
                 return (
                   <Image
                     source={icons.notification_icon}
@@ -104,7 +104,7 @@ const Tabs = () => {
           component={Home}
         />
         <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="Notification" component={Home} />
+        <Tab.Screen name="My Books" component={Home} />
         <Tab.Screen name="Setting" component={Settings} />
       </Tab.Navigator>
     );

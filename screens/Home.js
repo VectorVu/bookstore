@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  StyleSheet,
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import URL_IP from "../constants/connect";
 import  RenderList  from './RenderList';
+import Dialog, { DialogContent } from "react-native-popup-dialog";
 
 const LineDivider = () => {
   return (
@@ -28,14 +30,7 @@ const LineDivider = () => {
 };
 
 
-const getProfile = async () => {
 
-  console.log(user);
-  if (user) {
-    profileData.name = user.username;
-    profileData.point = user.point;
-  }
-}
 
 const Home = ({ navigation }) => {
   // Dummy Datas
@@ -43,12 +38,21 @@ const Home = ({ navigation }) => {
     username: "Guest",
     point: 0,
   };
+  const getProfile = async () => {
+    const user = JSON.parse(await AsyncStorage.getItem("savedUser"));
+    //console.log(user);
+    if (user) {
+      profileData.username = user.username;
+      profileData.point = user.point;
+    }
+  }
   const [bookData, setBookData] = React.useState([]);
-
+  const [modalVisible2, setModalVisible2] = React.useState(false);
   const [profile, setProfile] = React.useState(profileData);
   const [myBooks, setMyBooks] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
   const [selectedCategory, setSelectedCategory] = React.useState(1);
+  let addedPoints = 0;
 
   const getAllBookData = async () => {
     const allBook = await fetch(`${URL_IP}/book`, {
@@ -88,7 +92,100 @@ const Home = ({ navigation }) => {
     getAllBookData();
   }, [])
 
+  const renderGetPoints = () => {
+    return(
+      <Dialog
+        visible={modalVisible2}
+        onTouchOutside={() => {
+          setModalVisible2(false);
+        }}
+        width={300}
+        height={330}
+      >
+        <DialogContent>
+        <TouchableOpacity
+        style={[styles.button, styles.buttonOpen]}
+        onPress={()=>{
+          addedPoints = 10;
+          updatePointsPressed();
+        }}
+      >
+        <Text style={styles.buttonText}>10 Points = 10$</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.buttonOpen]}
+        onPress={()=>{
+          addedPoints = 60;
+          updatePointsPressed();
+        }}
+      >
+        <Text style={styles.buttonText}>60 Points = 50$</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.buttonOpen]}
+        onPress={()=>{
+          addedPoints = 150;
+          updatePointsPressed();
+        }}
+      >
+        <Text style={styles.buttonText}>150 Points = 100$</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.buttonOpen]}
+        onPress={()=>{
+          addedPoints = 400;
+          updatePointsPressed();
+        }}
+      >
+        <Text style={styles.buttonText}>400 Points = 200$</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.buttonOpen, {backgroundColor: 'gray'}]}
+        onPress={() => setModalVisible2(false)}
+      >
+        <Text style={styles.buttonText}>CLOSE</Text>
+      </TouchableOpacity>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  const updatePointsPressed = async () => {
+    console.log(addedPoints);
+    const userInfo = JSON.parse(await AsyncStorage.getItem("savedUser"));
+    const newPoints = userInfo.point + addedPoints;
+    let user = {
+      username: userInfo.username,
+      password: userInfo.password,
+      email: userInfo.email,
+      phoneNumber: userInfo.phoneNumber,
+      point: newPoints,
+      savedBooks: userInfo.savedBooks,
+    };
+    const response = await fetch(`${URL_IP}/user/${userInfo.username}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    const res = await response.json();
+    console.log(res.message);
+    if(res.message === "Update successfully") {
+      alert("Successfully");
+      setModalVisible2(false);
+      await AsyncStorage.setItem("savedUser", JSON.stringify(user));
+      getProfile();
+      navigation.navigate("home");
+    } else {
+      alert("Update failed");
+      setModalVisible2(false);
+    }
+  }
+
   const renderHeader = (profile) => {
+    getProfile();
     return (
       <View
         style={{
@@ -111,6 +208,9 @@ const Home = ({ navigation }) => {
         </View>
 
         {/* Points */}
+
+        {renderGetPoints()}
+
         <TouchableOpacity
           style={{
             backgroundColor: COLORS.primary,
@@ -120,7 +220,7 @@ const Home = ({ navigation }) => {
             borderRadius: 20,
           }}
           onPress={() => {
-            console.log("Point");
+            setModalVisible2(true);
           }}
         >
           <View
@@ -471,5 +571,37 @@ const Home = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.black,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginVertical: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  text: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  
+});
 
 export default memo(Home);

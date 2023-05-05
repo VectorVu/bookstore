@@ -11,7 +11,7 @@ import RenderList from "./RenderList";
 import TextInput from "../components/TextInput";
 import Button from "../components/Button";
 import URL_IP from "../constants/connect";
-import { COLORS, FONTS, SIZES, icons, images } from "../constants";
+import { COLORS} from "../constants";
 
 
 const Search = ({ navigation }) => {
